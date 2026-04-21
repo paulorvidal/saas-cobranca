@@ -1,0 +1,6 @@
+CREATE TABLE tenant (
+    id VARCHAR(50) PRIMARY KEY,
+    nome_empresa VARCHAR(100) NOT NULL,
+    schema_name VARCHAR(50) NOT NULL UNIQUE,
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
