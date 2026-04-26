@@ -21,8 +21,16 @@ spring:
   flyway:
     enabled: true
     # O Flyway vai rodar os scripts da pasta db/migration automaticamente
-    locations: classpath:db/migration
+    locations: classpath:db/migration/public
     baseline-on-migrate: true
 
 server:
   port: 8080
+
+api:
+  security:
+    rotas-publicas:
+      - /api/auth/login
+      - /v3/api-docs
+      - /swagger-ui
+      - /swagger-ui.html

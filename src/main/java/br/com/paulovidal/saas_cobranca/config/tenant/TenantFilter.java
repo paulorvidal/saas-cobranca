@@ -1,9 +1,9 @@
 package br.com.paulovidal.saas_cobranca.config.tenant;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,10 +18,8 @@ public class TenantFilter extends OncePerRequestFilter {
     private static final String TENANT_HEADER = "X-Tenant-ID";
 
     // Lista VIP: Rotas que NÃO precisam de Tenant (Login, Swagger, etc)
-    private static final List<String> ROTAS_PUBLICAS = Arrays.asList(
-            "/api/auth/login",
-            "/v3/api-docs",
-            "/swagger-ui");
+    @Value("${api.security.rotas-publicas}")
+    private List<String> rotasPublicas;
 
     /**
      * O Spring chama esse método antes. Se retornar TRUE, ele pula o filtro.
@@ -30,7 +28,7 @@ public class TenantFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
         // Verifica se a rota atual está na nossa Lista VIP
-        return ROTAS_PUBLICAS.stream().anyMatch(path::startsWith);
+        return rotasPublicas.stream().anyMatch(path::startsWith);
     }
 
     @Override
